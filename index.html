@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Traceability Monitoring</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <style>
+        body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+header {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+section {
+    background-color: #ffffff;
+    margin-bottom: 30px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.toolbox {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+    background-color: #2ecc71;
+}
+
+#template-area {
+    border: 2px dashed #bdc3c7;
+    padding: 20px;
+    min-height: 150px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: #ecf0f1;
+    transition: background-color 0.3s ease;
+}
+
+#template-area:hover {
+    background-color: #e8f8f5;
+}
+
+#template-area p {
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+.template-element {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.batch-record {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #ecf0f1;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.batch-record:hover {
+    background-color: #e8f8f5;
+}
+
+.batch-record strong {
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+.batch-record button {
+    background-color: #3498db;
+    padding: 8px 15px;
+    font-size: 12px;
+    border-radius: 4px;
+    font-weight: bold;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.batch-record button:hover {
+    background-color: #2980b9;
+}
+
+#save-template {
+    display: inline-block;
+    background-color: #8e44ad;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 12px 25px;
+    border-radius: 6px;
+    color: #fff;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+#save-template:hover {
+    background-color: #9b59b6;
+}
+
+    </style>
+    <header>
+        <h1>Food Traceability Monitoring</h1>
+    </header>
+    <main>
+        <section id="template-creation">
+            <h2>Create Template</h2>
+            <div id="template-builder">
+                <div class="toolbox">
+                    <button onclick="addElement('title')">Add Title</button>
+                    <button onclick="addElement('paragraph')">Add Paragraph</button>
+                    <button onclick="addElement('table')">Add Table</button>
+                    <button onclick="addElement('image')">Add Image</button>
+                    <button onclick="addElement('variable')">Add Variable</button>
+                </div>
+                <div id="template-area">
+                    <p>Drag and drop elements here...</p>
+                </div>
+                <button id="save-template" onclick="saveTemplate()">Save Template</button>
+            </div>
+        </section>
+
+        <section id="batch-records">
+            <h2>Batch Records</h2>
+            <div id="batch-list">
+            </div>
+        </section>
+    </main>
+    <script>
+        function addElement(type) {
+            const templateArea = document.getElementById("template-area");
+            let element;
+        
+            switch (type) {
+                case "title":
+                    element = document.createElement("h3");
+                    element.contentEditable = true;
+                    element.innerText = "New Title";
+                    break;
+                case "paragraph":
+                    element = document.createElement("p");
+                    element.contentEditable = true;
+                    element.innerText = "New Paragraph";
+                    break;
+                case "table":
+                    element = document.createElement("table");
+                    element.innerHTML = `
+                        <tr>
+                            <th>Header 1</th>
+                            <th>Header 2</th>
+                        </tr>
+                        <tr>
+                            <td>Data 1</td>
+                            <td>Data 2</td>
+                        </tr>`;
+                    break;
+                case "image":
+                    element = document.createElement("img");
+                    element.src = "placeholder.jpg";
+                    element.alt = "New Image";
+                    element.style.width = "100px";
+                    break;
+                case "variable":
+                    element = document.createElement("span");
+                    element.contentEditable = true;
+                    element.innerText = "{variable}";
+                    element.style.color = "blue";
+                    break;
+                default:
+                    return;
+            }
+        
+            element.className = "template-element";
+            templateArea.appendChild(element);
+        }
+        function saveTemplate() {
+            const templateArea = document.getElementById("template-area");
+            const templateContent = templateArea.innerHTML;
+            console.log("Template Saved:", templateContent);
+            alert("Template saved successfully!");
+        }
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            const batchList = document.getElementById("batch-list");
+            const sampleBatches = [
+                { id: 1, name: "Batch 101 - Paté", date: "2024-11-01" },
+                { id: 2, name: "Batch 102 - Paté", date: "2024-11-05" },
+            ];
+        
+            sampleBatches.forEach(batch => {
+                const div = document.createElement("div");
+                div.className = "batch-record";
+                div.innerHTML = `<strong>${batch.name}</strong> - ${batch.date} 
+                    <button onclick="viewBatch(${batch.id})">View</button>`;
+                batchList.appendChild(div);
+            });
+        });
+        
+        function viewBatch(id) {
+            alert(`Viewing details for Batch ID: ${id}`);
+        }
+        
+        </script>
+</body>
+</html>
